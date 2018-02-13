@@ -20,7 +20,7 @@
     </script>
     <script id="shader-fs" type="x-shader/x-fragment">
         void main(void) {
-            gl_FragColor = vec4(0.75, 0.5, 0.5, 1.0);
+            gl_FragColor = vec4(0.0, 0.5, 0.5, 1.0);
         }
     </script>
     <script>
@@ -87,7 +87,7 @@
           gl.enableVertexAttribArray(vertexPositionAttribute);
           canvas.onmousedown=function(ev){click(ev,gl,canvas,vertexPositionAttribute);};
         }
-        
+
         function makeShader(src, type)
         {
             //compile the vertex shader
