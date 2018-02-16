@@ -8,7 +8,7 @@
         }
 
         canvas {
-            background-color: #000099;
+            background-color: blue;
         }
     </style>
     <script id="shader-vs" type="x-shader/x-vertex">
@@ -60,7 +60,7 @@
         function setupWebGL()
         {
 
-            gl.clearColor(0.5, 0.0, 0.1, 1.0);
+            gl.clearColor(1.0, 0.0, 0.0, 1.0);
             gl.clear(gl.COLOR_BUFFER_BIT);
         }
 
@@ -86,10 +86,8 @@
         }
         function registerEventHandler() {
 
-          vertexPositionAttribute = gl.getUniformLocation(glProgram, "aVertexPosition");
-          fragColorAttribute = gl.getAttribLocation(glProgram, "uFragColor");
-          gl.enableVertexAttribArray(vertexPositionAttribute);
-          gl.enableVertexAttribArray(fragColorAttrbute);
+          vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
+          fragColorAttribute = gl.getUniformLocation(glProgram, "uFragColor");
           canvas.onmousedown=function(ev){click(ev,gl,canvas,vertexPositionAttribute, fragColorAttrbute);};
         }
 
@@ -117,7 +115,7 @@
         {
             var x = ev.clientX; // x coordinate of a mouse pointer
             var y = ev.clientY; // y coordinate of a mouse pointer
-            var z = 0;
+            var z = 0.0;
             var rect = ev.target.getBoundingClientRect();
             x = ((x -rect.left) -canvas.height/2)/(canvas.height/2);
             y = (canvas.width/2 -(y -rect.top))/(canvas.width/2);
@@ -125,11 +123,11 @@
 
             // Store the color
             if(x >= 0.0 && y >= 0.0) { // First quadrant
-                mouseClickColors.push([1.0, 1.0, 0.0, 1.0]); // Yellow
+                mouseClickColors.push([1.0, 0.0, 0.0, 1.0]); // Yellow
             } else if(x < 0.0 && y < 0.0) { // Third quadrant
                 mouseClickColors.push([0.0, 1.0, 0.0, 1.0]);  // Green
             } else {                        // Others
-                mouseClickColors.push([1.0, 0.0, 1.0, 1.0]); // Purple
+                mouseClickColors.push([0.0, 0.0, 1.0, 1.0]); // Purple
             }
             // Clear <canvas>
             gl.clear(gl.COLOR_BUFFER_BIT);
@@ -139,10 +137,12 @@
               var rgba = mouseClickColors[i];
 
               //posicion
+              alert(xy);
               gl.vertexAttrib3f(vertexPositionAttribute, xy[0], xy[1], xy[2]);
+              alert(rgba);
               gl.uniform4f(fragColorAttrbute, rgba[0],rgba[1], rgba[2], rgba[3]);
 
-              gl.draw(gl.POINTS, 0, 1);
+              gl.drawArrays(gl.POINTS, 0, 1);
         }
       }
     </script>
