@@ -106,9 +106,9 @@
         function setupBuffers() {
             var triangleVertices = [
                         //triangle Vertices
-                        -0.5, -0.0, 0.0,
-                        -0.5, 0.5, 0.0,
-                         0.0,  0.5, 0.0,
+                        -0.1, -0.1, 0.0,
+                        -0.3, 0.3, 0.0,
+                         0.0,  0.3, 0.0,
             ];
             trianglesVerticeBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, trianglesVerticeBuffer);
@@ -150,15 +150,35 @@
 
         function drawTriangle3() {
             /* Render triangle */
-            var sides=10;
-            for (var i=0.0; i<=sides; i++){
-              var posX = Math.cos(count*i)/3;
-              var posY = Math.sin(count*i)/3;
+            var sides=20;
+            for (var i=1; i<=sides; i++){
+              var posX = i*0.1*Math.cos(count*i)/3;
+              var posY = (sides-i)*0.1*Math.sin(count*i)/3;
 
+              if(i%2 !=0){
+                posX += posY/2;
+              }
+
+              if(i%2 ==0){
+                posX += posX/2;
+              }
+
+              if(i%3 !=0){
+                posX += posY*(4/7) - 0.5;
+              }
+
+              if(i%3 ==0){
+                posX += posX*(2/3) - 0.5;
+              }
+
+              if(i%7 ==0){
+                posX += posX/7 + 0.5;
+                posY += posY/7 + 0.5;
+              }
               mat4.identity(mvMatrix);
               mat4.translate(mvMatrix, [posX, posY, 0.0]);
-              //mat4.rotate(mvMatrix, count, [0.0, 0.0, 1.0]);
-              mat4.scale(mvMatrix, [0.2, 0.2, 1.0]);
+              mat4.rotate(mvMatrix, count, [posX, 0.0, 1.0]);
+              mat4.scale(mvMatrix, [0.1, 0.1, 1.0]);
               gl.uniformMatrix4fv(mvMatrixUniform, false, mvMatrix);
               gl.drawArrays(gl.TRIANGLES, 0, 3);
           }
